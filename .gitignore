@@ -2,4 +2,5 @@
 .recommenders
 /PhonyList/target/
 /PhonyList/settings/
+/PhonyList/.classpath
 

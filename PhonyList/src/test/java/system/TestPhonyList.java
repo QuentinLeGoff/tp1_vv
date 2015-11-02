@@ -389,6 +389,11 @@ public class TestPhonyList {
 	 * @input list=[3, 4, 1], int i=2, Integer=5
 	 * @oracle new list must equals the list with replaced element.
 	 * @passed No
+	 * @correction <pre>
+	 * l.180
+	 * -  elementData[++index] = element;
+	 * +  elementData[index] = element;
+	 * </pre>
 	 */
 	@Test
     public void testSet() {
@@ -462,7 +467,7 @@ public class TestPhonyList {
     	collec.add(6);
     	collec.add(2);
     	
-    	assertFalse(actual.addAll(i, collec));
+    	assertTrue(actual.addAll(i, collec));
     	assertEquals(expected, actual);
     }
 	

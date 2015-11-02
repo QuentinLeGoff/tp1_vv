@@ -1,8 +1,11 @@
 package system;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+
 import org.junit.Test;
 
 import system.PhonyList;
-
 import static org.junit.Assert.*;
 
 public class TestPhonyList {
@@ -259,4 +262,209 @@ public class TestPhonyList {
     	
     	assertEquals(list.get(i), (Integer)1);
     }
+	
+	/**
+	 * Tests the "remove" method.
+	 * 
+	 * @see PhonyList#remove(Object)
+	 * @type Functional
+	 * @input list=[3, 4, 1], Object=3
+	 * @oracle new list must equals list without Object..
+	 * @passed Yes
+	 */
+	@Test
+    public void testRemove() {
+		Object i=3;
+    	PhonyList<Integer> list = list(3, 4, 1);
+    	PhonyList<Integer> list2 = list(4, 1);
+    	
+    	assertTrue(list.remove(i));
+    	
+    	assertEquals(list, list2);
+    }
+	
+	/**
+	 * Tests the "remove" method with an empty list.
+	 * 
+	 * @see PhonyList#remove(Object)
+	 * @type Functional
+	 * @input list=[], Object=3
+	 * @oracle it must returns false.
+	 * @passed Yes
+	 */
+	@Test
+    public void testRemove_EmptyList() {
+		Object i=3;
+    	PhonyList<Integer> emptyList = list();
+    	
+    	assertFalse(emptyList.remove(i));
+    }
+	
+	/**
+	 * Tests the "remove" method and try to remove non existant element.
+	 * 
+	 * @see PhonyList#remove(Object)
+	 * @type Functional
+	 * @input list=[3,4,1], Object=5
+	 * @oracle it must returns false.
+	 * @passed Yes
+	 */
+	@Test
+    public void testRemove_DoesntExistElemnt() {
+		Object i=5;
+    	PhonyList<Integer> list = list(3, 4, 1);
+    	
+    	assertFalse(list.remove(i));
+    }
+	
+	/**
+	 * Tests the "removeAll" method.
+	 * 
+	 * @see PhonyList#removeAll(Collection)
+	 * @type Functional
+	 * @input list=[3, 4, 1], Collection= [3,4]
+	 * @oracle new list must equals list without Objects specified in Collection..
+	 * @passed Yes
+	 */
+	@Test
+    public void testRemoveAll() {
+    	PhonyList<Integer> list = list(3, 4, 1);
+    	PhonyList<Integer> listToCheckWith = list(1);
+    	Collection<Integer> collec = new LinkedList<Integer>();
+    	collec.add(3);
+    	collec.add(4);
+    	
+    	assertTrue(list.removeAll(collec));
+    	
+    	assertEquals(list, listToCheckWith);
+    }
+	
+	/**
+	 * Tests the "removeAll" method with an empty list
+	 * 
+	 * @see PhonyList#removeAll(Collection)
+	 * @type Functional
+	 * @input list=[], Collection= [3,4]
+	 * @oracle it must returns false
+	 * @passed Yes
+	 */
+	@Test
+    public void testRemoveAll_emptyList() {
+    	PhonyList<Integer> emptyList = list();
+    	Collection<Integer> collec = new LinkedList<Integer>();
+    	collec.add(3);
+    	collec.add(4);
+    	
+    	assertFalse(emptyList.removeAll(collec));
+    }
+	
+	
+	/**
+	 * Tests the "removeAll" method with an arrayList implementation.
+	 * 
+	 * @see PhonyList#removeAll(Collection)
+	 * @type Functional
+	 * @input list=[3, 4, 1], Collection= [3,4]
+	 * @oracle new list must equals list without Objects specified in Collection..
+	 * @passed Yes
+	 */
+	@Test
+    public void testRemoveAll_ArrayList() {
+    	PhonyList<Integer> list = list(3, 4, 1);
+    	PhonyList<Integer> listToCheckWith = list(1);
+    	Collection<Integer> collec = new ArrayList<Integer>();
+    	collec.add(3);
+    	collec.add(4);
+    	
+    	assertTrue(list.removeAll(collec));
+    	
+    	assertEquals(list, listToCheckWith);
+    }
+	
+	/**
+	 * Tests the "set" method.
+	 * 
+	 * @see PhonyList#set(int, Integer)
+	 * @type Functional
+	 * @input list=[3, 4, 1], int i=2, Integer=5
+	 * @oracle new list must equals the list with replaced element.
+	 * @passed No
+	 */
+	@Test
+    public void testSet() {
+		Integer element = new Integer(5);
+		int i = 2;
+    	PhonyList<Integer> list = list(3, 4, 1);
+    	PhonyList<Integer> expected = list(3, 4, 5);
+    	
+    	assertEquals(list.set(i, element), (Integer)1);
+    	assertEquals(expected, list);
+    }
+	
+	/**
+	 * Tests the "add" method.
+	 * 
+	 * @see PhonyList#add(Integer)
+	 * @type Functional
+	 * @input list=[3, 4, 1], Integer=5
+	 * @oracle new list must equals the list with added element.
+	 * @passed Yes
+	 */
+	@Test
+    public void testAdd() {
+		Integer element = new Integer(5);
+    	PhonyList<Integer> list = list(3, 4, 1);
+    	PhonyList<Integer> expected = list(3, 4, 1, 5);
+    	
+    	assertTrue(list.add(element));
+    	assertEquals(expected, list);
+    }
+	
+	/**
+	 * Tests the "addAll" method.
+	 * 
+	 * @see PhonyList#addAll(int, Collection)
+	 * @type Functional
+	 * @input list=[3, 4, 1], Collection=(5,6,2), i=1
+	 * @oracle new list must equals the list with added collection at specified position.
+	 * @passed Yes
+	 */
+	@Test
+    public void testAddAll() {
+		int i = 1;
+    	PhonyList<Integer> actual = list(3, 4, 1);
+    	PhonyList<Integer> expected = list(3, 5, 6, 2, 4, 1);
+    	Collection<Integer> collec = new ArrayList<Integer>();
+    	collec.add(5);
+    	collec.add(6);
+    	collec.add(2);
+    	
+    	assertTrue(actual.addAll(i, collec));
+    	assertEquals(expected, actual);
+    }
+	
+	/**
+	 * Tests the "addAll" method with an empty list.
+	 * 
+	 * @see PhonyList#addAll(int, Collection)
+	 * @type Functional
+	 * @input list=[], Collection=(5,6,2), i=0
+	 * @oracle it must return a list that contains added elements.
+	 * @passed No
+	 */
+	@Test
+    public void testAddAll_EmptyList() {
+		int i = 0;
+    	PhonyList<Integer> actual = list();
+    	PhonyList<Integer> expected = list(5,6,2);
+    	Collection<Integer> collec = new ArrayList<Integer>();
+    	collec.add(5);
+    	collec.add(6);
+    	collec.add(2);
+    	
+    	assertFalse(actual.addAll(i, collec));
+    	assertEquals(expected, actual);
+    }
+	
+	
 }
